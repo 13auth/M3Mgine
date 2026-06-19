@@ -1,0 +1,2 @@
+# 13auth MCP sunucusu için (mcp_server.py). Çekirdek API bunu gerektirmez.
+mcp>=1.2

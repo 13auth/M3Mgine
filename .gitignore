@@ -1,0 +1,89 @@
+# --- Sırlar / kiracı verisi: ASLA commit edilmez ---
+.env
+.env.*
+!.env.example
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+engine/data/
+secrets/
+*.key
+*.pem
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# --- Çalışma zamanı çıktıları ---
+*.log
+metrics_dump/
+eval_reports/
+*.bak
+*.bak.*
+
+# --- Editör / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# dev artefaktlari
+.playwright-mcp/
+[0-9][0-9]-*.png
+
+# brand kit (buyuk binary varliklar — ana kopya proje klasorunde, git disinda)
+brand/
+
+# tauri desktop build
+desktop/node_modules/
+desktop/src-tauri/target/
+
+# --- public-oncesi: is/strateji dokumanlari (diskte kalir, public DEGIL) ---
+MASTER-PLAN.md
+PRODUCT-ARCHITECTURE.md
+ARCHITECTURE.md
+FAZ1-KIT.md
+MCP-SETUP.md
+GTM-fintech-playbook.md
+# rakip arastirma gorselleri
+*.jpeg
+*.jpg
+# lokal arac/IDE + tarama ciktilari
+.claude/
+.secrets.baseline
+.secrets_scan.json
+
+# AI-arac config + dahili ops dokumanlari (public DEGIL)
+.claude/
+.cursor/
+.cursorrules
+CLAUDE.md
+AGENTS.md
+**/CLAUDE.md
+**/AGENTS.md
+**/EMAIL-SETUP.md
+**/OAUTH-SETUP.md
+DPA-VERBIS-CHECKLIST.md
+**/DPA-VERBIS-CHECKLIST.md
+RLS-ACTIVATION.md
+**/RLS-ACTIVATION.md
+
+# Faz-1 kit (kisisel origin-tooling, public DEGIL)
+/scripts/
+/prompts/
+/templates/

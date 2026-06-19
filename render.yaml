@@ -1,0 +1,24 @@
+# Render Blueprint — 13auth / CCE API (free tier, tek kutu)
+# DB = Neon (ayri, bu blueprint'te degil). Secret'lar dashboard'da girilir (sync: false).
+# Deploy: Render -> New -> Blueprint -> bu repo. Ya da manuel Web Service + asagidaki env'ler.
+services:
+  - type: web
+    name: cce-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free                 # free: 15dk bos kalinca uyur. Sonra "starter" (~$7/ay) always-on.
+    region: frankfurt          # Neon eu-central-1'e yakin (dusuk gecikme)
+    healthCheckPath: /health
+    autoDeploy: true           # main'e push -> otomatik yeniden deploy
+    envVars:
+      - key: CCE_STORE_BACKEND
+        value: postgres
+      - key: CCE_HOST
+        value: 0.0.0.0
+      - key: CCE_INLINE_WORKER
+        value: "1"             # async ingest kuyrugunu ayni process'te drenajla (ayri ucretli worker yok)
+      - key: CCE_DATABASE_URL
+        sync: false            # NEON DSN — dashboard'da elle girilir, repo'ya ASLA yazilmaz
+      # Opsiyonel (LLM/embed gerçek hat icin; yoksa fail-closed calisir):
+      # - key: API_SERVER_KEY
+      #   sync: false

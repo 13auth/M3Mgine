@@ -1,0 +1,68 @@
+# policy_rules.yaml — Compile edilmiş kurallar (correction'lardan türer)
+# Her kuralın provenance'ı (source) var: hangi düzeltmeden geldi.
+# type: hard  -> regex, deterministik, sıfır LLM, %100 trafikte çalışır
+# type: soft  -> semantik, LLM judge kuralın NİYETİNE göre karar verir
+#
+# Bu dosya elle de düzenlenir ama asıl correction_ingest çıktısından beslenir.
+
+rules:
+  # ---------------- Acme: dahil-içerik iması yasağı ----------------
+  - id: acme-no-content-promise
+    project: Acme
+    type: hard
+    severity: high
+    source: "correction 2026-06-16 (app store telifli görsel)"
+    message: >
+      İçerik vaadi ima eden ifade. Acme bir oynatıcı; kanal/film/maç
+      sağlamaz. İçerik kullanıcının kendi M3U/Xtream kaynağından gelir.
+    forbid_patterns:
+      - "binlerce\\s+kanal"
+      - "t[üu]m\\s+(spor\\s+)?(ma[çc]|kar[şs][ıi]la[şs]ma)lar"
+      - "en\\s+yeni\\s+filmler"
+      - "canl[ıi]\\s+ma[çc]"
+      - "thousands\\s+of\\s+channels"
+      - "all\\s+(the\\s+)?(matches|sports)"
+      - "latest\\s+movies"
+      - "live\\s+match(es)?"
+
+  # ---------------- Acme: telifli marka/lig/yayıncı yasağı ----------------
+  - id: acme-no-real-ip
+    project: Acme
+    type: hard
+    severity: high
+    source: "Acme standing facts (CLAUDE.md)"
+    message: >
+      Gerçek yayıncı / lig / takım / platform adı. Telifli IP iması yasak.
+    forbid_patterns:
+      - "bein\\s?sports?"
+      - "exxen"
+      - "\\btabii\\b"
+      - "netflix"
+      - "disney\\+?"
+      - "amazon\\s+prime"
+      - "s[üu]per\\s+lig"
+      - "[şs]ampiyonlar\\s+ligi"
+      - "champions\\s+league"
+      - "premier\\s+league"
+      - "la\\s?liga"
+      - "\\buefa\\b"
+      - "\\bnba\\b"
+      - "be[şs]ikta[şs]"
+      - "fenerbah[çc]e"
+      - "galatasaray"
+      - "trabzonspor"
+
+  # ---------------- Acme: semantik içerik-sağlayıcı iması ----------------
+  - id: acme-not-a-provider-semantic
+    project: Acme
+    type: soft
+    severity: high
+    source: "correction 2026-06-16 + Acme standing facts"
+    message: >
+      Metin, uygulamanın kanal/film/yayın/hesap/playlist SAĞLADIĞINI ima
+      ediyor. Acme player'dır; içerik kullanıcıya aittir (BYO M3U/Xtream).
+    rule: >
+      Çıktı, uygulamanın kendisinin herhangi bir kanal, film, canlı yayın,
+      hesap veya playlist SUNDUĞUNU/İÇERDİĞİNİ ima ediyorsa İHLAL'dir.
+      Uygulamayı yalnızca kullanıcının kendi kaynağını oynatan bir araç
+      olarak konumlandırıyorsa ihlal YOKtur.
