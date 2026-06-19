@@ -1,0 +1,23 @@
+# CCE self-host. LLM hattı + key host ortamından geçer (koda/imaja gömülmez).
+# Üretimde ÖNÜNE TLS sonlandıran reverse proxy koy (nginx/Caddy); 8770'i doğrudan açma.
+services:
+  cce:
+    build: .
+    ports:
+      - "127.0.0.1:8770:8770"   # sadece loopback; proxy bunun önüne geçer
+    environment:
+      CCE_HOST: "0.0.0.0"
+      CCE_PORT: "8770"
+      CCE_DB: "/data/cce.db"
+      CCE_RATE_RPM: "${CCE_RATE_RPM:-120}"
+      CCE_JUDGE_VOTES: "${CCE_JUDGE_VOTES:-1}"
+      CCE_LLM_BASE_URL: "${CCE_LLM_BASE_URL:-}"
+      CCE_LLM_MODEL: "${CCE_LLM_MODEL:-}"
+      CCE_LLM_API_KEY: "${CCE_LLM_API_KEY:-}"
+      CCE_EMBED_MODEL: "${CCE_EMBED_MODEL:-text-embedding-3-small}"
+    volumes:
+      - cce-data:/data
+    restart: unless-stopped
+
+volumes:
+  cce-data:

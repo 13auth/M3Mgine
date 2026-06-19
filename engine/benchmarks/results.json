@@ -1,0 +1,91 @@
+{
+  "model": "google/gemini-2.5-flash-lite",
+  "repeat": 3,
+  "generated_at": "2026-06-19",
+  "enforce": {
+    "n_cases": 58,
+    "n_rules": 11,
+    "repeat": 3,
+    "baseline": {
+      "n": 174,
+      "acc": 0.954,
+      "f1": 0.9588,
+      "prec": 0.949,
+      "rec": 0.9688,
+      "fp": 5,
+      "fp_rate": 0.0641,
+      "fn": 3,
+      "fmt_fail_rate": 0.0
+    },
+    "production": {
+      "n": 174,
+      "acc": 1.0,
+      "f1": 1.0,
+      "prec": 1.0,
+      "rec": 1.0,
+      "fp": 0,
+      "fp_rate": 0.0,
+      "fn": 0,
+      "fmt_fail_rate": 0.0
+    }
+  },
+  "correction": {
+    "n_corrections": 8,
+    "repeat": 3,
+    "recall": 1.0,
+    "spec": 1.0,
+    "f1": 1.0,
+    "caught": 48,
+    "total_v": 48,
+    "passed": 48,
+    "total_c": 48,
+    "compile_fail": 0
+  },
+  "extract": {
+    "n_messages": 7,
+    "n_gold": 45,
+    "repeat": 3,
+    "recall": 1.0,
+    "cov": 45,
+    "total_g": 45,
+    "leak": 0,
+    "empty_extra": 0,
+    "total_extracted": 45
+  },
+  "retrieval": {
+    "corpus_size": 66,
+    "n_queries": 35,
+    "sparse": {
+      "n": 35,
+      "recall@1": 0.7143,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.85,
+      "ndcg@10": 0.8906
+    },
+    "sparse_heldout": {
+      "n": 10,
+      "recall@1": 0.7,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.85,
+      "ndcg@10": 0.8955
+    },
+    "hybrid": {
+      "n": 35,
+      "recall@1": 0.9143,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.9571,
+      "ndcg@10": 0.9702
+    },
+    "hybrid_heldout": {
+      "n": 10,
+      "recall@1": 0.9,
+      "recall@5": 1.0,
+      "recall@10": 1.0,
+      "mrr": 0.95,
+      "ndcg@10": 0.9693
+    }
+  }
+}

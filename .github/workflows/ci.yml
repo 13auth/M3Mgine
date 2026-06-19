@@ -1,0 +1,37 @@
+name: CI
+
+# CCE motoru: offline test paketleri + canlı e2e (server'ı runner kendi kaldırır).
+# Harici servis gerekmez (SQLite + stdlib). LLM hattı yoksa test_live_llm SKIP olur.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    defaults:
+      run:
+        working-directory: engine
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Compile check (tüm modüller)
+        run: python -c "import py_compile,glob; [py_compile.compile(f,doraise=True) for f in glob.glob('*.py')+glob.glob('integrations/*.py')]; print('compile OK')"
+
+      - name: Doğrulama (offline paketler + canlı e2e)
+        run: python tests/run_ci.py

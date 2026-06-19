@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cce"
+version = "0.1.0"
+description = "Correction-Compliance Engine — AI ajan policy enforce + ölçüm katmanı"
+requires-python = ">=3.10"
+dependencies = ["PyYAML>=6.0", "cryptography>=42"]
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.2"]
+postgres = ["psycopg[binary]>=3.1,<4"]
+
+[project.scripts]
+cce = "engine.cli:main"
+cce-mcp = "engine.mcp_server:main"
+
+[tool.setuptools]
+packages = ["engine", "engine.integrations"]

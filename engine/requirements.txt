@@ -1,0 +1,9 @@
+# Correction-Compliance Engine — runtime bağımlılıkları
+# Çekirdek (llm, store_sqlite, policy_engine, api, cli) SADECE stdlib kullanır.
+# Kural dosyası (YAML seed) okuma için:
+PyYAML>=6.0
+# Postgres backend (CCE_STORE_BACKEND=postgres) için. [binary] = derlenmiş libpq,
+# slim image'da sistem paketi gerektirmez. Vektör SQL'de text-cast, pgvector py paketi GEREKMEZ.
+psycopg[binary]>=3.1,<4
+# at-rest alan şifrelemesi (crypto.py / Fernet). CCE_ENCRYPTION_KEY set edilince aktif.
+cryptography>=42
